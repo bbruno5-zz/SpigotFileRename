@@ -1,7 +1,7 @@
 package com.b5team.spigotfilerename;
 
 import java.io.File;
-
+import java.util.logging.Level;
 import org.bukkit.util.FileUtil;
 
 public class Utils {
@@ -15,15 +15,37 @@ public class Utils {
 		String filepath = "../" + path + "/" + file;
 		String fileback = "../" + path + "/" + back;
 		
-		try {
+		File dir = Main.getInstance().getDataFolder();
+		
+		File old = new File(dir, filepath);
+		File niu = new File(dir, fileback);
+		
+		if (!dir.exists()) {
 			
-			File old = new File(filepath);
+			dir.mkdirs();
+			Main.getMainLogger().log(Level.INFO, "[SpigotFileRename] Generating structures...");
+		} else if (dir.exists() && dir.isDirectory()) {
+			Main.getMainLogger().log(Level.INFO, "[SpigotFileRename] Primary directory exists. Pass.");
+		} else {
+			Main.getMainLogger().log(Level.SEVERE, "[SpigotFileRename] The plugin directory can't be created!");
+		}
+		
+		if (old.exists() && !old.isDirectory()) {
 			old.delete();
+			Main.getMainLogger().log(Level.INFO, "[SpigotFileRename] Old file deleted.");
 			
-			FileUtil.copy(new File(fileback), new File(filepath));
+		} else {
+			Main.getMainLogger().log(Level.WARNING, "[SpigotFileRename] The old file or directory doesn't exists previously.");
 			
-		} catch (Exception e) {
-			System.out.println("[SpigotFileRename] Some error occurred when trying to replace file.");
+		}
+		
+		if (niu.exists() && !niu.isDirectory()) {
+			FileUtil.copy(niu, old);
+			Main.getMainLogger().log(Level.INFO, "[SpigotFileRename] File replaced successfully!");
+			
+		} else {
+			Main.getMainLogger().log(Level.SEVERE, "[SpigotFileRename] The new file or directory doesn't exists. Verify the correct path and try again.");
+			
 		}
 	}
 }
