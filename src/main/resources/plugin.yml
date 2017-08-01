@@ -1,0 +1,10 @@
+main: com.b5team.spigotfilerename.Main
+name: SpigotFileRename
+version: 1.0-SNAPSHOT
+author: bbruno5
+description: Utility for replace files with backup in Bukkit/Spigot servers
+commands:
+  sfr:
+    description: Calls plugin to make the replacement
+    usage: |
+            /<command> <arguments>
