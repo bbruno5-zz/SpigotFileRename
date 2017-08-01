@@ -43,15 +43,18 @@ public class Main extends JavaPlugin {
 				
 				if (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender || sender instanceof BlockCommandSender) {
 	        		
-					Utils.renameFile(arg);
-					
+					if (arg.length < 3) {
+						logger.log(Level.SEVERE, "[SpigotFileRename] You need to parse 3 arguments. Read REAME file for more details.");
+					} else {
+						Utils.renameFile(arg);
+					}
 	        	} else if (sender instanceof Player) {
 	        		
 	        		Player plsender = (Player) sender;
-	        		plsender.sendMessage("You are not allowed to use this command.");
+	        		plsender.sendMessage("&4You are not allowed to use this command.");
 	        	}
 			} catch (Exception e) {
-				logger.log(Level.SEVERE, "[SpigotFileRename] Impossible to make utils request.");
+				logger.log(Level.SEVERE, "[SpigotFileRename] Impossible to make utils request.", e);
 			}
 		}
 		return false;
